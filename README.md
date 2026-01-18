@@ -2,7 +2,7 @@
 
 A React frontend with Vite and a Python backend using FastAPI for executing Python code with AWS OpenSearch integration.
 
-## System Dependencies
+## System Dependencies for Linux Debian
 
 Install required system packages:
 
@@ -62,6 +62,7 @@ npm install
    ```bash
    cd backend
    source ../venv/bin/activate
+   # pip install uvicorn; pip install fastapi
    uvicorn main:app --reload --host 0.0.0.0 --port 8000
    ```
 
@@ -80,3 +81,47 @@ npm install
 - View the output in the output textarea
 
 The backend executes the code using the Python interpreter in the virtual environment with access to AWS services (boto3, OpenSearch).
+
+## In the target machine:
+
+(1) react vite front end server
+```
+# at /home/ec2-user/code/research/dashboard/frontend
+npm run dev
+```
+
+(2) python backend server
+```
+# at /home/ec2-user/code/research/dashboard
+source venv/bin/activate
+# at /home/ec2-user/code/research/dashboard/backend
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+(3) test aws / opensearch connection
+```
+# at /home/ec2-user/code/research/dashboard
+source venv/bin/activate
+python3 test_opensearch.py
+```
+
+## start.sh content:
+
+```
+# Create webserver dashboard
+tmux new-window -t orchestrator -n webserver
+tmux send-keys -t orchestrator:webserver "cd ${HOME_DIR}/code/research/dashboard/frontend; npm run dev" C-m
+
+# Create python backend dashboard
+tmux new-window -t orchestrator -n backend
+tmux send-keys	-t orchestrator:backend	"cd ${HOME_DIR}/code/research/dashboard/; source	venv/bin/activate; cd backend; uvicorn main:app --reload --host 0.0.0.0 --port 8000" C-m
+
+# Create python backend test
+tmux new-window -t orchestrator -n backend-test
+tmux send-keys -t orchestrator:backend-test "cd ${HOME_DIR}/code/research/dashboard/; source venv/bin/activate; cd backend; python3 test_opensearch.py" C-m
+```
+
+# from the localhost machine:
+- IP_ADDRESS = "13.204.232.140"
+- ssh -i o8-aws/vp-north-worker-arm.pem ec2-user@13.204.232.140 -L 5173:localhost:5173 -L 8000:localhost:8000
+- navigate to: "http://localhost:5173"

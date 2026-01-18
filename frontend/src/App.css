@@ -1,10 +1,11 @@
 .app {
   max-width: 1400px;
-  min-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   min-height: 100vh;
   background: #f8f9fa;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -43,12 +44,8 @@ label {
   gap: 0.5rem;
 }
 
-label::before {
-  content: '▸';
-  font-size: 1.2rem;
-}
-
 textarea {
+  width: 100%;
   padding: 1rem;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 14px;
@@ -60,6 +57,7 @@ textarea {
   color: #1f2937;
   transition: all 0.3s ease;
   min-height: 300px;
+  box-sizing: border-box;
 }
 
 textarea:focus {
@@ -73,6 +71,45 @@ textarea:read-only {
   background: #f3f4f6;
   cursor: default;
   color: #374151;
+}
+
+.label-with-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #667eea;
+}
+
+.label-with-icons span {
+  display: flex;
+  align-items: center;
+}
+
+.icons {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #667eea;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.icon-button:hover {
+  background: rgba(102, 126, 234, 0.1);
 }
 
 button {
@@ -90,6 +127,9 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0.5rem 0;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
 }
 
 button:hover:not(:disabled) {
@@ -120,4 +160,56 @@ button:disabled {
   .input-section, .output-section {
     padding: 1.5rem;
   }
+
+  .button-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .app {
+    padding: 0.5rem;
+  }
+
+  .input-section, .output-section {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  label, .label-with-icons {
+    font-size: 1rem;
+  }
+
+  textarea {
+    font-size: 13px;
+    padding: 0.75rem;
+    min-height: 200px;
+  }
+
+  button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .icon-button {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import subprocess
 import os
+from settings import FORBIDDEN_STRINGS
 
 app = FastAPI()
 
@@ -20,6 +21,12 @@ class ExecuteRequest(BaseModel):
 
 @app.post("/execute")
 async def execute_code(request: ExecuteRequest):
+    # Security check: block potentially dangerous code patterns
+    for forbidden in FORBIDDEN_STRINGS:
+        if forbidden in request.code:
+            return {"output": "Not allowed"}
+
+    # Execute the code
     try:
         # Path to Python in venv
         python_path = os.path.join(os.path.dirname(__file__), "..", "venv", "bin", "python")
