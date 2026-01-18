@@ -1,20 +1,9 @@
-# """
-# export AWS_PROFILE=aspireprod
-# export AWS_PROFILE=default
-# """
-
 import logging
 from boto3 import Session, set_stream_logger
 from opensearchpy import OpenSearch, RequestsHttpConnection
 from requests_aws4auth import AWS4Auth
 
 set_stream_logger(name="botocore.credentials", level=logging.ERROR)
-
-# domain_url = {
-#     'ortus': 'search-common-arnlsjpb2fr2jisljvaoxzlizq.eu-west-2.es.amazonaws.com',
-#     'aspireprod': 'search-common-sqpjon34cxv3pnbphoknwx6pt4.eu-west-2.es.amazonaws.com'
-# }
-
 
 def countopense(
     event,
@@ -67,35 +56,7 @@ def countopense(
     # query
     response = client_opensearch.count(index=index_name, body=payload)
 
+    # return
     if verbose:
         print(f"Count for index {index_name}: {response['count']}")
-
     return response["count"]
-
-
-if __name__ == "__main__":
-
-    for indice in [
-        # "ai-research-shell-training-3",
-        # "ai-research-shell-inference-3",
-        # "ai-research-shell-item-3",
-        "ai-research-shell-bom-3",
-    ]:
-        test_event = {
-            "index": indice,
-            "payload": {
-                "query": {
-                    "match_all": {},
-                    # "bool": {"must": [{"match": {"date": "2025-08-06"}}]},
-                }
-            },
-        }
-        count = countopense(test_event, verbose=True)
-        print(f"Total documents: {count}")
-
-    # test_event = {
-    #     "index": "ai-research-shell-training-3",
-    #     "payload": {"query": {"bool": {"must": [{"exists": {"field": "date"}}]}}},
-    # }
-    # count = countopense(test_event, verbose=True)
-    # print(f"Total documents: {count}")

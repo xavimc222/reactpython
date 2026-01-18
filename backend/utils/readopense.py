@@ -1,8 +1,3 @@
-# """
-# export AWS_PROFILE=aspireprod
-# export AWS_PROFILE=default
-# """
-
 import logging
 import json
 from boto3 import Session, set_stream_logger
@@ -10,11 +5,6 @@ from opensearchpy import OpenSearch, RequestsHttpConnection
 from requests_aws4auth import AWS4Auth
 
 set_stream_logger(name="botocore.credentials", level=logging.ERROR)
-
-# domain_url = {
-#     'ortus': 'search-common-arnlsjpb2fr2jisljvaoxzlizq.eu-west-2.es.amazonaws.com',
-#     'aspireprod': 'search-common-sqpjon34cxv3pnbphoknwx6pt4.eu-west-2.es.amazonaws.com'
-# }
 
 
 def readopense(

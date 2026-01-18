@@ -70,7 +70,7 @@ print(len(response), payload["index"])`)
 
   return (
     <div className="app">
-      <h1>Python Code Executor</h1>
+      <h1>Organic Planner Debug</h1>
       <div className="container">
         <div className="input-section">
           <label htmlFor="code-input">Python Code:</label>

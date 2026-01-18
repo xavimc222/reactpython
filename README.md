@@ -1,4 +1,4 @@
-# ReactPython
+# Organic Planner Debug
 
 A React frontend with Vite and a Python backend using FastAPI for executing Python code with AWS OpenSearch integration.
 
